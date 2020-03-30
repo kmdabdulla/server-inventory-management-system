@@ -9,9 +9,13 @@ require_once("DatabaseService.php");
 * @author Mohamed Abdulla
 */
 class ServerInventoryManagementService extends DatabaseService {
-
-
-	protected static $pdo = NULL; 
+    
+    /**
+    * Holds PDO object.
+    *
+    * @var object $pdo.
+    */	
+    protected static $pdo = NULL; 
 
 
     /**

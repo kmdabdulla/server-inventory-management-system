@@ -9,27 +9,27 @@ require_once("DBServiceInterface.php");
 */
 abstract class DatabaseService implements DBServiceInterface  {
 
-	/**
+    /**
     * Returns the table name (implemented by respective services) for performing requested CRUD operation.
-	*
+    *
     */
-	abstract protected function getTable();
+    abstract protected function getTable();
 
-	/**
+    /**
     * Returns the primary column name (implemented by respective services) for performing requested CRUD operation.
-	*
+    *
     */
-	abstract protected function getPrimaryColumn();
+    abstract protected function getPrimaryColumn();
 
 
-	/**
+    /**
     * Returns the database connection object (implemented by respective services) for performing requested CRUD operation.
-	*
+    *
     */
-	abstract protected static function getDBConnection();
+    abstract protected static function getDBConnection();
 
 
-	/**
+    /**
     * find matching rows for the specified value and column name.
     *
     * @param string $findby. Column name of the table. Required 
@@ -37,37 +37,37 @@ abstract class DatabaseService implements DBServiceInterface  {
     *
     * @return Array $results. Containing matching rows.
     */
-	public function find($columnName, $value): Array {
+    public function find($columnName, $value): Array {
 		$query = "select * from ".$this->getTable(). " where ".$columnName."=".'"'.$value.'"';
 		$pdostmt = $this->executeQuery($query);
 		$results = $pdostmt->fetchAll( PDO::FETCH_ASSOC);
 		return $results;
-	}
+    }
 
 
-	/**
+    /**
     * List all the matching rows from the table for the specified limit and offset. 
     *
     * @param Array $data. Array containing limit and offset. Required 
     *
     * @return Array $results. Containing matching rows.
     */
-	public function listAll($data): Array {
+    public function listAll($data): Array {
 		$query = "select * from ".$this->getTable()." order by ".$this->getPrimaryColumn()." limit ".$data['offset'].",".$data['limit'];		
 		$pdostmt = $this->executeQuery($query);
 		$results = $pdostmt->fetchAll( PDO::FETCH_ASSOC);
 		return $results;
-	}
+    }
 
 
-	/**
+    /**
     * Insert entry into the table.
     *
     * @param Array $data. Array containing necessary parameters for insertion. Required
     *
     * @return int $affectedRowCount. count of successfully inserted rows.
     */
-	public function add($data): int {
+    public function add($data): int {
 		$valueString = "(";
 		foreach ($data as $key => $value) {
 			$valueString.=":".$key.",";
@@ -78,10 +78,10 @@ abstract class DatabaseService implements DBServiceInterface  {
 		$pdostmt = $this->executeQuery($query,$data);
 		$affectedRowCount = $pdostmt->rowCount();
 		return $affectedRowCount;
-	}
+    }
 
 
-	/**
+    /**
     * Update entry in the table.
     *
     * @param string $id. unique id of the row to be updated.
@@ -89,7 +89,7 @@ abstract class DatabaseService implements DBServiceInterface  {
     * 
     * @return int $affectedRowCount. count of successfully updated rows.
     */
-	public function update($id, $data): int {
+    public function update($id, $data): int {
 		$updateString = "";
 		foreach ($data as $key => $value) {
 			$updateString.=$key."=:".$key.",";
@@ -99,16 +99,16 @@ abstract class DatabaseService implements DBServiceInterface  {
 		$pdostmt = $this->executeQuery($query,$data);
 		$affectedRowCount = $pdostmt->rowCount();
 		return $affectedRowCount;
-	}
+    }
 
-	/**
+    /**
     * Delete entry in the table.
     *
     * @param string or Array $id. unique id(s) of the row to be deleted. Required
     *
     * @return int $affectedRowCount. count of successfully deleted rows.
     */
-	public function delete($ids): int {
+    public function delete($ids): int {
 		$deleteIds = "";
 		if(is_array($ids)) {
 			foreach ($ids as $value) {
@@ -123,11 +123,11 @@ abstract class DatabaseService implements DBServiceInterface  {
 		$affectedRowCount = $pdostmt->rowCount();
 		return $affectedRowCount;
 		
-	}	
+     }	
 
 
 
-	/**
+    /**
     * Returns the PDO statement object after performing query execution.
     *
     * @param $query. Query to be executed on the provided Database and Table. Required
@@ -135,11 +135,11 @@ abstract class DatabaseService implements DBServiceInterface  {
     *
     * @return $pdostmt. PDO object.
     */
-	public function executeQuery($query, $data = NULL) {
+    public function executeQuery($query, $data = NULL) {
 		$pdo = static::getDBConnection();
 		$pdostmt = $pdo->prepare($query);
 		$pdostmt->execute($data);
 		return $pdostmt;
-	}
+    }
 }
 ?>

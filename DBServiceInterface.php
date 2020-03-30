@@ -10,7 +10,7 @@
 */
 interface DBServiceInterface {
 
-	/**
+    /**
     * find matching rows for the specified value and column name.
     *
     * @param string $findby. Column name of the table. Required 
@@ -18,30 +18,30 @@ interface DBServiceInterface {
     *
     * @return Array. Containing matching rows.
     */
-	public function find($findby, $value): Array;
+    public function find($findby, $value): Array;
 
 
-	/**
+    /**
     * List all the matching rows from the table for the specified limit and offset. 
     *
     * @param Array $data. Array containing limit and offset. Required 
     *
     * @return Array. Containing matching rows.
     */
-	public function listAll($data): Array;
+    public function listAll($data): Array;
 
 
-	/**
+    /**
     * Insert entry into the table.
     *
     * @param Array $data. Array containing necessary parameters for insertion. Required 
     *
     * @return int. count of successfully inserted rows.
     */
-	public function add($data): int;
+    public function add($data): int;
 
 
-	/**
+    /**
     * Update entry in the table.
     *
     * @param string $id. unique id of the row to be updated.
@@ -49,16 +49,16 @@ interface DBServiceInterface {
     *
     * @return int. count of successfully updated rows.
     */
-	public function update($id, $data): int;
+    public function update($id, $data): int;
 
 
-	/**
+    /**
     * Delete entry in the table.
     *
     * @param string or Array $id. unique id(s) of the row(s) to be deleted. Required 
     *
     * @return int. count of successfully deleted rows.
     */
-	public function delete($id): int;
+    public function delete($id): int;
 
 }
